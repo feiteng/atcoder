@@ -99,10 +99,103 @@ public class Main {
 /***********************************************************************/
 /***********************************************************************/
 
-        new Main().d();
+        new Main().b();
         out.flush();
     }
 
+    void b() throws Exception
+    {
+        int[] ary = toIntArray();
+        int m = ary[0], n = ary[1];
+        char[][] g = new char[m][];
+        int op = 0;
+        for(int i = 0; i < m; i++) 
+        {
+            g[i] = in.readLine().toCharArray();
+            for(char c : g[i])
+            {
+                if(c == '.') op++;
+            }
+        }
+
+        int[][] dist = new int[m][n];
+
+        for(int[] dd : dist) Arrays.fill(dd, 1 << 30);
+
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{0, 0});
+
+        int[] dx = {1, 0, -1, 0}, dy = {0, 1, 0, -1};        
+
+        int step = 0;
+        dist[0][0] = 0;
+
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            while(size-- > 0)
+            {
+                int[] c = q.poll();
+                // System.out.println(Arrays.toString(c));
+                int x = c[0], y = c[1];
+                
+                for(int k = 0; k < 4; k++)
+                {
+                    int nx = x + dx[k], ny = y + dy[k];
+                    if(nx < 0 || ny < 0 || nx >= m || ny >= n || g[nx][ny] == '#') continue;
+                    if(dist[nx][ny] <= step + 1) continue;
+                    dist[nx][ny] = step + 1;
+                    q.offer(new int[]{nx, ny});
+                }
+            }
+            step++;
+        }
+
+        if(dist[m - 1][n - 1] >= 1 << 30) out.println(-1);
+        else out.println(op - 1 - dist[m - 1][n - 1]);
+
+        // now go backward and fill back the best path
+
+        // int i = m - 1, j = n - 1;
+        // g[m - 1][n - 1] = '*';
+        // while(i >= 1 && j >= 1)
+        // {
+        //     if(dist[i - 1][j] == dist[i][j] - 1)
+        //     {
+        //         g[i - 1][j] = '*';
+        //         i--;
+        //     }
+        //     else {
+        //         g[i][j - 1] = '*';
+        //         j--;
+        //     }
+        // }
+        // while(j == 0 && i >= 0)
+        // {
+        //     g[i][j] = '*';
+        //     i--;
+        // }
+        // while(i == 0 && j >= 0)
+        // {
+        //     g[i][j] = '*';
+        //     j--;
+        // }
+
+        // int op = 0;
+
+        // // for(int[] dd : dist) System.out.println(Arrays.toString(dd));
+
+        // for(char[] gg : g)
+        // {
+        //     // System.out.println(Arrays.toString(gg));
+        //     for(char c : gg) 
+        //     {
+        //         if(c == '.') op++;
+        //     }
+        // }
+
+        // out.println(op);
+    }
     void d() throws Exception
     {
         int[] ary = toIntArray();
