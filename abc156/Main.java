@@ -216,23 +216,6 @@ public class Main {
             return re;
         }
 
-        // long pow(long a, int b)
-        // {
-        //     long re = 1;
-        //     while(b > 0)
-        //     {
-        //         if(b % 2 != 0)
-        //         {
-        //             re *= a;
-        //             re %= mod;
-        //         }
-        //         b /= 2;
-        //         a = a * a;
-        //         a %= mod;
-        //     }
-        //     return re;
-        // }
-
     void d() throws Exception
     {
         int[] ary = toIntArray();
