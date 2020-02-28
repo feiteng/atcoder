@@ -9,7 +9,7 @@ public class Main {
     static PrintWriter out = new PrintWriter(System.out);
     static String file = "../in";
     static int test = 0; // 0 for local testing, 1 for std input
-    static int inf = 1_000_000, mod = 1_000_000_007;
+    static int inf = 1_000_000;
 
     void swap(int[]ary, int i, int j)
     {
@@ -42,56 +42,6 @@ public class Main {
         return new StringBuilder(str).reverse().toString();
     }
 
-<<<<<<< HEAD
-    class Comb
-    {
-        long[] f;
-        int mod = 1_000_000_007;
-
-        public Comb(int n)
-        {
-            f = new long[n + 10];
-            f[0] = 1;
-            for(int i = 1; i <= n; i++)
-            {
-                f[i] = (f[i - 1] * i) % mod;
-            }
-        }
-
-        public long choose(int n, int m)
-        {
-            // return f[n] * pow(f[m], mod - 2) % mod * pow(f[n - m], mod - 2) % mod;
-            return factorial(n) * pow(factorial(m), mod - 2) % mod * pow(factorial(n - m), mod - 2) % mod;
-        }
-
-        long factorial(int k)
-        {
-            long re = 1;
-            for(int i = 1; i <= k; i++) re *= k % mod;
-            return re;
-        }
-
-        long pow(long a, int b)
-        {
-            long re = 1;
-            while(b > 0)
-            {
-                if(b % 2 != 0)
-                {
-                    re *= a;
-                    re %= mod;
-                }
-                b /= 2;
-                a = a * a;
-                a %= mod;
-            }
-            return re;
-        }
-
-    }
-
-=======
->>>>>>> 3e9bd86e1b5e51d0199a21b362b33b3efc142e8a
     public static void main(String[] args) throws Exception
     {
         int _k = Integer.valueOf("1");
@@ -104,10 +54,12 @@ public class Main {
 /***********************************************************************/
         // System.out.println((-100 + 0) / 2);
 
-        new Main().d();
+        new Main().c();
         out.flush();
     }
     
+    int mod = 1_000_000_007;
+
     long pow(long a, int pow)
     {
         long res = 1;
@@ -125,18 +77,15 @@ public class Main {
         return res;
     }
 
-<<<<<<< HEAD
-=======
-    // long comb(int n, int k)
-    // {
-    //     if(n < 0 || k < 0 || k > n) return 0;
+    long comb(int n, int k)
+    {
+        if(n < 0 || k < 0 || k > n) return 0;
 
-    //     return (((f[n] * ff[k]) % mod) * f[n - k]) % mod;
-    // }
+        return (((f[n] * ff[k]) % mod) * f[n - k]) % mod;
+    }
 
-    // long[] f = new long[2_000_010], ff = new long[2_000_010];
+    long[] f = new long[2_000_010], ff = new long[2_000_010];
 
->>>>>>> 3e9bd86e1b5e51d0199a21b362b33b3efc142e8a
     void f() throws Exception
     {
         
@@ -218,47 +167,40 @@ public class Main {
         System.out.println(ehelper(str, k));
     }
 
-<<<<<<< HEAD
-    public long choose(long n, int m)
-        {
-            // return f[n] * pow(f[m], mod - 2) % mod * pow(f[n - m], mod - 2) % mod;
-            return factorial(n) * pow(factorial(m), mod - 2) % mod * pow(factorial(n - m), mod - 2) % mod;
-        }
-
-        long factorial(long k)
-        {
-            long re = 1;
-            for(int i = 1; i <= k; i++) re *= k % mod;
-            return re;
-        }
-=======
     long gcd(long a, long b)
     {
         if(b == 0) return a;
         return gcd(b, a % b);
     }
->>>>>>> 3e9bd86e1b5e51d0199a21b362b33b3efc142e8a
 
     void d() throws Exception
     {
         int[] ary = toIntArray();
-        int n = ary[0], a = ary[1], b = ary[2];
-<<<<<<< HEAD
-        long nL = (long) n;
-        // Comb comb = new Comb(n);
-        long c1 = choose(nL, a), c2 = choose(nL, b);
-        int mod = 1_000_000_007;
+        int n = ary[0], k = ary[1];
+        ary = toIntArray();
         
-        long total = pow(2, n);
-        
-        System.out.println((total - 1 - c1 - c2 + mod) % mod);
+        Arrays.sort(ary);
+        long lo = Long.MIN_VALUE,
+                hi = Long.MAX_VALUE;
 
-    }    
-=======
-
-        
+        while(lo < hi)
+        {
+            long m = (lo + hi) / 2;
+            if(lo < 0) m--;
+            
+            int c = bs(ary, m);
+            // System.out.printf("%d %d %d %d\n", lo, hi, m, c);
+            if(c < k) {
+                // if(lo < 0 && hi < 0)
+                lo = m + 1;
+            }
+            else {
+                if(lo < 0 && hi < 0) hi = m - 1;
+                else hi = m;
+            }
+        }
+        out.println(lo);
     }
->>>>>>> 3e9bd86e1b5e51d0199a21b362b33b3efc142e8a
 
     int bs(int[] ary, long t)
     {
@@ -311,20 +253,10 @@ public class Main {
     
     void c() throws Exception
     {
-        int n = readInt();
-        int[] ary = toIntArray();
-        int dist = 1 << 30;
-        for(int x = 1; x <= 100; x++)
-        {
-            int t = 0;
-            for(int i = 0; i < n; i++)
-            {
-                int dx = ary[i] - x;
-                t += dx * dx;
-            }
-            dist = Math.min(dist, t);
-        }
-        out.println(dist);
+        long n = Long.valueOf(in.readLine());
+        int count = dfs(0, n, false);
+        
+        out.println(count);
     }
 
     int dfs(long val, long cap, boolean flag){
@@ -369,31 +301,16 @@ public class Main {
 
     void b() throws Exception
     {
-        int[] ary = toIntArray();
-        int n = ary[0], k = ary[1];
-        int c = 0;
-        while(n > 0)
-        {
-            n /= k;
-            c++;
-        }
-        out.println(c);
-
     }
 
     void a() throws Exception
     {
         int[] ary = toIntArray();
-        int n = ary[0], r = ary[1];
-        if(n < 10)
+        Arrays.sort(ary);
+        if(ary[0] == 5 && ary[1] == 5 && ary[2] == 7)
         {
-            int diff = 100 * (10 - n);
-            r += diff;
+            out.println("YES");
         }
-        System.out.println(r);
+        else out.println("NO");
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 3e9bd86e1b5e51d0199a21b362b33b3efc142e8a

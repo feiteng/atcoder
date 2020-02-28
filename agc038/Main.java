@@ -305,6 +305,7 @@ public class Main {
         int[] ary = toIntArray();
         int h = ary[0], w = ary[1], a = ary[2], b = ary[3];
 
+<<<<<<< HEAD
         for(int i = 0; i < h; i++)
         {
             for(int j = 0; j < w; j++)
@@ -318,3 +319,30 @@ public class Main {
         }
     }
 }
+=======
+        int[][] g = new int[h][w];
+
+        for(int i = 0; i < b; i++)
+        {
+            for(int j = 0; j < a; j++)
+            {
+                g[i][j] = 1;
+            }
+        }
+
+        for(int i = b; i < h; i++)
+        {
+            for(int j = a; j < w; j++)
+            {
+                g[i][j] = 1;
+            }
+        }
+
+        for(int[] gg : g)
+        {
+            for(int k : gg) System.out.printf("%d", k);
+            System.out.printf("\n");
+        }
+    }
+}
+>>>>>>> 3e9bd86e1b5e51d0199a21b362b33b3efc142e8a
